@@ -1,5 +1,5 @@
 -- ==============================================================================
--- STUDENT BUDDY — SUPABASE PRODUCTION DATABASE SCHEMA & SECURITY POLICIES
+-- STUDIFY — SUPABASE PRODUCTION DATABASE SCHEMA & SECURITY POLICIES
 -- ==============================================================================
 -- Engine: PostgreSQL 15+ (Supabase Native)
 -- Security: Strict Row-Level Security (RLS) on all tables

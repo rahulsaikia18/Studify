@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Seeding Student Buddy database...');
+  console.log('🌱 Seeding Studify database...');
 
   // 1. Create or update Demo Student User
   const passwordHash = await bcrypt.hash('Password123!', 10);

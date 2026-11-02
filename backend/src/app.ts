@@ -35,7 +35,7 @@ app.use('/api', apiLimiter);
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({
     status: 'online',
-    app: 'Student Buddy API',
+    app: 'Studify API',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV,
   });

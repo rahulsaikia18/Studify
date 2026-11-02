@@ -7,7 +7,7 @@ const PORT = 5555;
 const BASE_URL = `http://127.0.0.1:${PORT}/api`;
 
 async function runTests() {
-  console.log('🧪 Starting Student Buddy Backend API Integration Tests...\n');
+  console.log('🧪 Starting Studify Backend API Integration Tests...\n');
 
   await new Promise<void>((resolve) => {
     server = app.listen(PORT, '127.0.0.1', () => {

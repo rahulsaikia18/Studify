@@ -49,7 +49,7 @@ export default function ProfileScreen() {
         [{ text: 'OK' }]
       );
     } catch {
-      Alert.alert('Export Notice', 'Data export is available while connected to the Student Buddy server.');
+      Alert.alert('Export Notice', 'Data export is available while connected to the Studify server.');
     }
   };
 
@@ -271,7 +271,7 @@ export default function ProfileScreen() {
         </View>
 
         <Text style={[styles.versionText, { color: colors.textMuted }]}>
-          Student Buddy v1.0.0 • Production Build
+          Studify v1.0.0 • Production Build
         </Text>
       </ScrollView>
 

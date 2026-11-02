@@ -30,7 +30,7 @@ export class PDFController {
       const mergedBytes = await PDFService.mergePDFs(buffers);
 
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename="student-buddy-merged.pdf"');
+      res.setHeader('Content-Disposition', 'attachment; filename="studify-merged.pdf"');
       return res.send(Buffer.from(mergedBytes));
     } catch (error: any) {
       console.error('PDF merge error:', error);
@@ -58,7 +58,7 @@ export class PDFController {
 
       // Return first split document or metadata array
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename="student-buddy-split-part1.pdf"');
+      res.setHeader('Content-Disposition', 'attachment; filename="studify-split-part1.pdf"');
       return res.send(Buffer.from(splitResults[0]));
     } catch (error: any) {
       console.error('PDF split error:', error);
@@ -88,7 +88,7 @@ export class PDFController {
       const extractedBytes = await PDFService.extractPages(file.buffer, pageIndices);
 
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename="student-buddy-extracted.pdf"');
+      res.setHeader('Content-Disposition', 'attachment; filename="studify-extracted.pdf"');
       return res.send(Buffer.from(extractedBytes));
     } catch (error: any) {
       return res.status(500).json({ success: false, message: 'Failed to extract PDF pages', error: error.message });
@@ -108,7 +108,7 @@ export class PDFController {
       res.setHeader('X-Original-Size', result.originalSize.toString());
       res.setHeader('X-Compressed-Size', result.newSize.toString());
       res.setHeader('X-Saved-Percentage', result.savedPercentage.toString());
-      res.setHeader('Content-Disposition', 'attachment; filename="student-buddy-compressed.pdf"');
+      res.setHeader('Content-Disposition', 'attachment; filename="studify-compressed.pdf"');
 
       return res.send(Buffer.from(result.data));
     } catch (error: any) {

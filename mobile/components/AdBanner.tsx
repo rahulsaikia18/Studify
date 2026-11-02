@@ -61,7 +61,7 @@ export const AdBanner: React.FC<AdBannerProps> = ({ placement = 'Dashboard' }) =
             <Text style={styles.adBadge}>AD • Google AdMob Test</Text>
             <Text style={[styles.adPlacement, { color: isDark ? '#94A3B8' : '#64748B' }]}>{placement}</Text>
           </View>
-          <Text style={[styles.adTitle, { color: colors.text }]}>Study Smarter with Student Buddy Pro</Text>
+          <Text style={[styles.adTitle, { color: colors.text }]}>Study Smarter with Studify Pro</Text>
           <Text style={[styles.adSub, { color: colors.textMuted }]}>Compliant adaptive banner slot • Zero navigation overlap</Text>
         </View>
       </View>

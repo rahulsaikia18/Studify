@@ -71,7 +71,7 @@ export default function OnboardingScreen() {
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.text }]}>Customize Your Study Experience</Text>
         <Text style={[styles.sub, { color: colors.textMuted }]}>
-          Help Student Buddy personalize your tools, calculators, and reminders.
+          Help Studify personalize your tools, calculators, and reminders.
         </Text>
       </View>
 

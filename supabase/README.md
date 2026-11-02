@@ -1,6 +1,6 @@
 # Supabase Database Integration & Security Setup
 
-This directory contains the production PostgreSQL schema and security policies for **Student Buddy** on [Supabase](https://supabase.com).
+This directory contains the production PostgreSQL schema and security policies for **Studify** on [Supabase](https://supabase.com).
 
 ---
 
@@ -8,7 +8,7 @@ This directory contains the production PostgreSQL schema and security policies f
 
 ### Step 1: Create a Project on Supabase
 1. Go to [https://supabase.com](https://supabase.com) and sign in.
-2. Click **New Project**, choose your organization, name it `student-buddy`, and set a strong database password.
+2. Click **New Project**, choose your organization, name it `studify`, and set a strong database password.
 
 ### Step 2: Run the SQL Schema & Security Policies
 1. In your Supabase Project dashboard, navigate to **SQL Editor** in the left sidebar.

@@ -1,6 +1,6 @@
-# 🎓 Student Buddy — Production-Ready Android Mobile Application
+# 🎓 Studify — Production-Ready Android Mobile Application
 
-**Student Buddy** is a comprehensive, production-ready, Android-first academic productivity application built for school, college, and university students, as well as competitive examination aspirants. 
+**Studify** is a comprehensive, production-ready, Android-first academic productivity application built for school, college, and university students, as well as competitive examination aspirants. 
 
 It unifies daily study management, credit-weighted GPA calculations, attendance target tracking, focus intervals, encrypted notes, prioritized to-dos, examination countdowns, client-side PDF document manipulation, AI-powered quiz practice, and compliant Google AdMob monetization.
 
@@ -9,7 +9,7 @@ It unifies daily study management, credit-weighted GPA calculations, attendance 
 ## 🏗️ System Architecture & Tech Stack
 
 ```
-student-buddy/
+studify/
 ├── backend/                       # Node.js + Express.js + TypeScript + Prisma ORM
 │   ├── prisma/
 │   │   ├── schema.prisma          # PostgreSQL production database schema
@@ -153,7 +153,7 @@ The API will be live at `http://localhost:5000/api` (Health check: `http://local
 
 ### 2. Connect to Supabase PostgreSQL (Optional / Production)
 
-To connect Student Buddy to your free Supabase cloud database:
+To connect Studify to your free Supabase cloud database:
 1. Create a project at [supabase.com](https://supabase.com).
 2. Open **SQL Editor** in the Supabase dashboard and run [`supabase/schema.sql`](./supabase/schema.sql) (creates tables, indexes, and Row-Level Security policies).
 3. Copy your database connection string from **Project Settings -> Database** and set it in `backend/.env`:

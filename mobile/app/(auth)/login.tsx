@@ -82,7 +82,7 @@ export default function LoginScreen() {
           <View style={styles.logoBadge}>
             <Ionicons name="school" size={40} color="#2563EB" />
           </View>
-          <Text style={[styles.appName, { color: colors.text }]}>Student Buddy</Text>
+          <Text style={[styles.appName, { color: colors.text }]}>Studify</Text>
           <Text style={[styles.tagline, { color: colors.textMuted }]}>
             Your all-in-one academic productivity companion
           </Text>

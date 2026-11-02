@@ -120,7 +120,7 @@ export class UserController {
       ]);
 
       const exportPayload = {
-        app: 'Student Buddy',
+        app: 'Studify',
         exportedAt: new Date().toISOString(),
         user,
         cgpa,
@@ -134,7 +134,7 @@ export class UserController {
       };
 
       res.setHeader('Content-Type', 'application/json');
-      res.setHeader('Content-Disposition', `attachment; filename=student-buddy-data-${userId}.json`);
+      res.setHeader('Content-Disposition', `attachment; filename=studify-data-${userId}.json`);
       return res.send(JSON.stringify(exportPayload, null, 2));
     } catch (error) {
       return res.status(500).json({ success: false, message: 'Failed to export student data' });

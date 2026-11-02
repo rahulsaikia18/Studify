@@ -35,7 +35,7 @@ export default function PrivacyPolicyScreen() {
         <View style={{ flex: 1, marginLeft: 12 }}>
           <Text style={[styles.bannerTitle, { color: colors.text }]}>Privacy-First Student Utility</Text>
           <Text style={[styles.bannerSub, { color: colors.textMuted }]}>
-            Student Buddy adheres strictly to Google Play Families Policy, COPPA, and Google AdMob Advertising Standards.
+            Studify adheres strictly to Google Play Families Policy, COPPA, and Google AdMob Advertising Standards.
           </Text>
         </View>
       </View>

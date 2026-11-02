@@ -7,7 +7,7 @@ async function bootstrap() {
 
   app.listen(ENV.PORT, () => {
     console.log(`===============================================`);
-    console.log(`🚀 Student Buddy API running on port ${ENV.PORT}`);
+    console.log(`🚀 Studify API running on port ${ENV.PORT}`);
     console.log(`🌍 Environment: ${ENV.NODE_ENV}`);
     console.log(`📡 URL: http://localhost:${ENV.PORT}`);
     console.log(`🩺 Health check: http://localhost:${ENV.PORT}/api/health`);
