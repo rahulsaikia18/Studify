@@ -4,10 +4,7 @@ dotenv.config();
 export const ENV = {
   PORT: parseInt(process.env.PORT || '5000', 10),
   NODE_ENV: process.env.NODE_ENV || 'development',
-  DATABASE_URL:
-    process.env.DATABASE_URL ||
-    process.env.DIRECT_URL ||
-    'postgresql://postgres:GTB87E9pQB1Qx4F5@db.zaurjcjenwwyswmdavfw.supabase.co:5432/postgres',
+  DATABASE_URL:'postgresql://postgres.zaurjcjenwwyswmdavfw:GTB87E9pQB1Qx4F5@aws-0-eu-north-1.pooler.supabase.com:6543/postgres?pgbouncer=true',
   JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || 'student_buddy_super_secure_access_secret_2026_xyz123',
   JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'student_buddy_super_secure_refresh_secret_2026_abc456',
   JWT_ACCESS_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN || '15m',
