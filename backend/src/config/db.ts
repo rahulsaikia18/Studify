@@ -1,5 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 
+const DEFAULT_SUPABASE_URL =
+  'postgresql://postgres:GTB87E9pQB1Qx4F5@db.zaurjcjenwwyswmdavfw.supabase.co:5432/postgres';
+
+const databaseUrl =
+  process.env.DATABASE_URL ||
+  process.env.DIRECT_URL ||
+  DEFAULT_SUPABASE_URL;
+
 // Serverless-safe singleton pattern:
 // Prevents exhausting PostgreSQL / Supabase connection limits during Vercel cold and warm reloads.
 const globalForPrisma = globalThis as unknown as {
@@ -9,6 +17,11 @@ const globalForPrisma = globalThis as unknown as {
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
+    datasources: {
+      db: {
+        url: databaseUrl,
+      },
+    },
     log: process.env.NODE_ENV === 'development' ? ['warn', 'error'] : ['error'],
   });
 

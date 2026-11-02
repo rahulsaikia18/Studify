@@ -76,25 +76,29 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   login: async (email, password) => {
     const res = await ApiClient.post('/auth/login', { email, password }, { skipAuth: true });
-    if (res.success && res.data) {
+    if (res && res.success && res.data) {
       const { user, tokens } = res.data;
       await Storage.saveTokens(tokens.accessToken, tokens.refreshToken);
       await Storage.setItem('sb_cached_user', user);
       const isDone = !!(user.educationLevel || user.courseName);
       await Storage.setItem('sb_onboarding_done', isDone);
       set({ user, isAuthenticated: true, hasCompletedOnboarding: isDone });
+      return;
     }
+    throw new Error(res?.message || 'Invalid email or password.');
   },
 
   register: async (payload) => {
     const res = await ApiClient.post('/auth/register', payload, { skipAuth: true });
-    if (res.success && res.data) {
+    if (res && res.success && res.data) {
       const { user, tokens } = res.data;
       await Storage.saveTokens(tokens.accessToken, tokens.refreshToken);
       await Storage.setItem('sb_cached_user', user);
       set({ user, isAuthenticated: true, hasCompletedOnboarding: true });
       await Storage.setItem('sb_onboarding_done', true);
+      return;
     }
+    throw new Error(res?.message || 'Registration failed. Please check your details.');
   },
 
   updateProfile: async (data) => {

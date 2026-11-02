@@ -36,11 +36,21 @@ export default function OnboardingScreen() {
     setLoading(true);
     setErrorMsg(null);
 
+    const email = (params.email as string)?.trim().toLowerCase();
+    const password = params.password as string;
+    const fullName = (params.fullName as string)?.trim() || 'Student';
+
+    if (!email || !password) {
+      setErrorMsg('Account credentials missing. Please go back to the Register screen.');
+      setLoading(false);
+      return;
+    }
+
     try {
       await register({
-        fullName: params.fullName || 'Student',
-        email: params.email || 'student@buddy.edu',
-        password: params.password || 'Password123!',
+        fullName,
+        email,
+        password,
         educationLevel: skipOptional ? null : educationLevel,
         institution: skipOptional ? null : institution,
         courseName: skipOptional ? null : courseName,
@@ -50,7 +60,7 @@ export default function OnboardingScreen() {
 
       router.replace('/(tabs)');
     } catch (err: any) {
-      setErrorMsg(err.message || 'Onboarding failed');
+      setErrorMsg(err.message || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }

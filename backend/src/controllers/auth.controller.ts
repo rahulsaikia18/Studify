@@ -94,9 +94,9 @@ export class AuthController {
           },
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Registration error:', error);
-      return res.status(500).json({ success: false, message: 'Server error during registration' });
+      return res.status(500).json({ success: false, message: error?.message || 'Server error during registration' });
     }
   }
 
@@ -141,9 +141,9 @@ export class AuthController {
           },
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Login error:', error);
-      return res.status(500).json({ success: false, message: 'Server error during login' });
+      return res.status(500).json({ success: false, message: error?.message || 'Server error during login' });
     }
   }
 
