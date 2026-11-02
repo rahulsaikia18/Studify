@@ -22,8 +22,8 @@ export default function AttendanceCalculatorScreen() {
   const { colors, isDark } = useThemeStore();
 
   // Instant Calculator States
-  const [totalClasses, setTotalClasses] = useState('36');
-  const [attendedClasses, setAttendedClasses] = useState('30');
+  const [totalClasses, setTotalClasses] = useState('');
+  const [attendedClasses, setAttendedClasses] = useState('');
   const [targetPercentage, setTargetPercentage] = useState('75');
 
   // Add course modal

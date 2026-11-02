@@ -33,7 +33,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isLoading: true,
   isAuthenticated: false,
-  hasCompletedOnboarding: true,
+  hasCompletedOnboarding: false,
 
   initAuth: async () => {
     try {

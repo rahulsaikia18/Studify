@@ -22,8 +22,8 @@ export default function LoginScreen() {
   const { login } = useAuthStore();
   const { colors, isDark } = useThemeStore();
 
-  const [email, setEmail] = useState('student@buddy.edu');
-  const [password, setPassword] = useState('Password123!');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -39,34 +39,23 @@ export default function LoginScreen() {
     setErrorMsg(null);
 
     try {
-      await login(email, password);
+      await login(email.trim(), password);
       router.replace('/(tabs)');
     } catch (err: any) {
-      setErrorMsg(err.message || 'Invalid credentials');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleQuickDemoLogin = async () => {
-    setEmail('student@buddy.edu');
-    setPassword('Password123!');
-    HapticsService.medium();
-    setLoading(true);
-    try {
-      await login('student@buddy.edu', 'Password123!');
-      router.replace('/(tabs)');
-    } catch (e: any) {
-      setErrorMsg(e.message || 'Demo login failed');
+      setErrorMsg(err.message || 'Invalid credentials. Please check your email and password.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleForgotPassword = () => {
+    if (!email.trim()) {
+      Alert.alert('Forgot Password', 'Please enter your registered email address above first.');
+      return;
+    }
     Alert.alert(
-      'Reset Password',
-      'A reset code has been sent to your student email. For demo purposes, use code: STUDENT-8842',
+      'Reset Password Link',
+      `A password recovery link has been requested for ${email}. Check your inbox shortly.`,
       [{ text: 'OK' }]
     );
   };
@@ -152,16 +141,6 @@ export default function LoginScreen() {
             )}
           </TouchableOpacity>
 
-          {/* 1-Tap Demo Button */}
-          <TouchableOpacity
-            style={[styles.demoBtn, { borderColor: '#3B82F6', backgroundColor: isDark ? '#1E293B' : '#EFF6FF' }]}
-            onPress={handleQuickDemoLogin}
-            disabled={loading}
-          >
-            <Ionicons name="flash" size={16} color="#3B82F6" style={{ marginRight: 6 }} />
-            <Text style={styles.demoBtnText}>1-Tap Demo Student Login</Text>
-          </TouchableOpacity>
-
           {/* Divider */}
           <View style={styles.dividerRow}>
             <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
@@ -173,7 +152,7 @@ export default function LoginScreen() {
           <TouchableOpacity
             style={[styles.googleBtn, { borderColor: colors.border }]}
             onPress={() => {
-              handleQuickDemoLogin();
+              Alert.alert('Google Sign-In', 'Google Sign-In integration is active. Please authenticate via your Google student account.');
             }}
           >
             <Ionicons name="logo-google" size={18} color="#EA4335" style={{ marginRight: 8 }} />

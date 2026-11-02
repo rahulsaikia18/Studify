@@ -52,21 +52,13 @@ export default function HomeDashboard() {
       return res.data;
     },
     initialData: {
-      chartData: [
-        { day: 'Mon', date: '1', plannedMinutes: 60, actualMinutes: 50 },
-        { day: 'Tue', date: '2', plannedMinutes: 90, actualMinutes: 80 },
-        { day: 'Wed', date: '3', plannedMinutes: 120, actualMinutes: 110 },
-        { day: 'Thu', date: '4', plannedMinutes: 45, actualMinutes: 45 },
-        { day: 'Fri', date: '5', plannedMinutes: 90, actualMinutes: 90 },
-        { day: 'Sat', date: '6', plannedMinutes: 60, actualMinutes: 30 },
-        { day: 'Sun', date: '7', plannedMinutes: 120, actualMinutes: 135 },
-      ],
-      todayHours: 2.2,
-      todayMinutes: 135,
-      completedTasks: 3,
-      pendingTasks: 2,
-      studyStreak: 5,
-      productivityScore: 88,
+      chartData: [],
+      todayHours: 0,
+      todayMinutes: 0,
+      completedTasks: 0,
+      pendingTasks: 0,
+      studyStreak: 0,
+      productivityScore: 0,
     },
   });
 

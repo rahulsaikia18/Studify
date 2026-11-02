@@ -30,19 +30,14 @@ export default function CgpaCalculatorScreen() {
   const [activeTab, setActiveTab] = useState<'sgpa' | 'cgpa' | 'history'>('sgpa');
   const [multiplier, setMultiplier] = useState('9.5'); // Configurable university conversion factor
 
-  // SGPA Subject entries
+  // SGPA Subject entries (clean input for student)
   const [subjects, setSubjects] = useState<SubjectRow[]>([
-    { id: '1', name: 'Data Structures', credits: 4, gradePoint: 9 },
-    { id: '2', name: 'Computer Networks', credits: 4, gradePoint: 8 },
-    { id: '3', name: 'Discrete Math', credits: 3, gradePoint: 10 },
-    { id: '4', name: 'Algorithms Lab', credits: 2, gradePoint: 9 },
+    { id: '1', name: '', credits: 3, gradePoint: 0 },
   ]);
 
   // Semester SGPA entries for CGPA
   const [semesters, setSemesters] = useState([
-    { semesterNumber: 1, sgpa: 8.4, totalCredits: 20 },
-    { semesterNumber: 2, sgpa: 8.7, totalCredits: 22 },
-    { semesterNumber: 3, sgpa: 8.6, totalCredits: 24 },
+    { semesterNumber: 1, sgpa: 0, totalCredits: 20 },
   ]);
 
   // SGPA Calculation

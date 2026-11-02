@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { Stack } from 'expo-router';
+import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useThemeStore } from '../stores/themeStore';
 import { useAuthStore } from '../stores/authStore';
 import { useTimerStore } from '../stores/timerStore';
-import { AppState, AppStateStatus } from 'react-native';
+import { AppState, AppStateStatus, View, ActivityIndicator } from 'react-native';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,14 +18,31 @@ const queryClient = new QueryClient({
 });
 
 export default function RootLayout() {
+  const router = useRouter();
+  const segments = useSegments();
   const { initTheme, isDark } = useThemeStore();
-  const { initAuth } = useAuthStore();
+  const { initAuth, isAuthenticated, isLoading } = useAuthStore();
   const { syncBackgroundTime, tick, isRunning } = useTimerStore();
 
   useEffect(() => {
     initTheme();
     initAuth();
   }, []);
+
+  // Strict Auth Guard: Never bypass authentication
+  useEffect(() => {
+    if (isLoading) return;
+
+    const inAuthGroup = segments[0] === '(auth)';
+
+    if (!isAuthenticated && !inAuthGroup) {
+      // User is not authenticated -> redirect to login immediately
+      router.replace('/(auth)/login');
+    } else if (isAuthenticated && inAuthGroup) {
+      // Authenticated user on login/register -> redirect to main app
+      router.replace('/(tabs)');
+    }
+  }, [isAuthenticated, isLoading, segments]);
 
   // Listen for AppState changes to guarantee background Pomodoro accuracy
   useEffect(() => {
@@ -46,6 +63,16 @@ export default function RootLayout() {
     return () => clearInterval(interval);
   }, [isRunning]);
 
+  if (isLoading) {
+    return (
+      <SafeAreaProvider>
+        <View style={{ flex: 1, backgroundColor: isDark ? '#0F172A' : '#F8FAFC', alignItems: 'center', justifyContent: 'center' }}>
+          <ActivityIndicator size="large" color="#2563EB" />
+        </View>
+      </SafeAreaProvider>
+    );
+  }
+
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
@@ -56,8 +83,8 @@ export default function RootLayout() {
             animation: 'slide_from_right',
           }}
         >
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen
             name="tools/cgpa"
             options={{
