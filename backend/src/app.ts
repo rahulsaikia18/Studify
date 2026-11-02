@@ -18,9 +18,19 @@ import { apiLimiter } from './middleware/rateLimiter';
 
 const app = express();
 
+// Trust Vercel / reverse proxy headers for rate limiting and IP resolution
+app.set('trust proxy', 1);
+
 // Security and middleware
 app.use(helmet());
-app.use(cors({ origin: '*', credentials: true }));
+app.use(
+  cors({
+    origin: '*',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  })
+);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -31,11 +41,39 @@ if (process.env.NODE_ENV !== 'test') {
 // Global API rate limiter
 app.use('/api', apiLimiter);
 
+// Root Ping & Keep-Alive endpoint (for Uptime monitors & Vercel inspection)
+app.get('/', (req: Request, res: Response) => {
+  res.json({
+    status: 'online',
+    app: 'Studify API',
+    version: '1.0.0',
+    platform: process.env.VERCEL ? 'Vercel Serverless' : 'Node.js Standalone',
+    uptime: Math.round(process.uptime()),
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: '/api/health',
+      motivation: '/api/motivation',
+      auth: '/api/auth',
+      cgpa: '/api/cgpa',
+      attendance: '/api/attendance',
+      study: '/api/study',
+      pomodoro: '/api/pomodoro',
+      notes: '/api/notes',
+      todos: '/api/todos',
+      exams: '/api/exams',
+      quiz: '/api/quiz',
+      pdf: '/api/pdf',
+      admob: '/api/admob',
+    },
+  });
+});
+
 // Health check endpoint
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({
     status: 'online',
     app: 'Studify API',
+    platform: process.env.VERCEL ? 'Vercel Serverless' : 'Node.js Standalone',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV,
   });
