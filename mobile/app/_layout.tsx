@@ -1,0 +1,129 @@
+import React, { useEffect } from 'react';
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useThemeStore } from '../stores/themeStore';
+import { useAuthStore } from '../stores/authStore';
+import { useTimerStore } from '../stores/timerStore';
+import { AppState, AppStateStatus } from 'react-native';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: 1,
+    },
+  },
+});
+
+export default function RootLayout() {
+  const { initTheme, isDark } = useThemeStore();
+  const { initAuth } = useAuthStore();
+  const { syncBackgroundTime, tick, isRunning } = useTimerStore();
+
+  useEffect(() => {
+    initTheme();
+    initAuth();
+  }, []);
+
+  // Listen for AppState changes to guarantee background Pomodoro accuracy
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState: AppStateStatus) => {
+      if (nextAppState === 'active') {
+        syncBackgroundTime();
+      }
+    });
+    return () => subscription.remove();
+  }, []);
+
+  // Timer 1-second interval loop
+  useEffect(() => {
+    if (!isRunning) return;
+    const interval = setInterval(() => {
+      tick();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [isRunning]);
+
+  return (
+    <SafeAreaProvider>
+      <QueryClientProvider client={queryClient}>
+        <StatusBar style={isDark ? 'light' : 'dark'} />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            animation: 'slide_from_right',
+          }}
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="tools/cgpa"
+            options={{
+              headerShown: true,
+              title: 'CGPA & SGPA Calculator',
+              headerBackTitle: 'Back',
+            }}
+          />
+          <Stack.Screen
+            name="tools/attendance"
+            options={{
+              headerShown: true,
+              title: 'Attendance Calculator',
+              headerBackTitle: 'Back',
+            }}
+          />
+          <Stack.Screen
+            name="tools/pomodoro"
+            options={{
+              headerShown: true,
+              title: 'Pomodoro Focus Timer',
+              headerBackTitle: 'Back',
+            }}
+          />
+          <Stack.Screen
+            name="tools/todos"
+            options={{
+              headerShown: true,
+              title: 'To-Do Manager',
+              headerBackTitle: 'Back',
+            }}
+          />
+          <Stack.Screen
+            name="tools/exams"
+            options={{
+              headerShown: true,
+              title: 'Exam Countdown',
+              headerBackTitle: 'Back',
+            }}
+          />
+          <Stack.Screen
+            name="tools/pdf"
+            options={{
+              headerShown: true,
+              title: 'PDF Tools & Optimizer',
+              headerBackTitle: 'Back',
+            }}
+          />
+          <Stack.Screen
+            name="tools/quiz"
+            options={{
+              headerShown: true,
+              title: 'Quiz Generator',
+              headerBackTitle: 'Back',
+            }}
+          />
+          <Stack.Screen
+            name="settings/privacy"
+            options={{
+              headerShown: true,
+              title: 'Privacy & Ad Policies',
+              headerBackTitle: 'Back',
+            }}
+          />
+        </Stack>
+      </QueryClientProvider>
+    </SafeAreaProvider>
+  );
+}

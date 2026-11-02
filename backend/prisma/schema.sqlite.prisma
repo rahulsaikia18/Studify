@@ -1,0 +1,204 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                String            @id @default(uuid())
+  email             String            @unique
+  passwordHash      String
+  fullName          String
+  educationLevel    String?           // School, College, University, Competitive Exam
+  institution       String?
+  courseName        String?
+  semester          String?
+  academicGoals     String?
+  theme             String            @default("system")
+  notificationPrefs String            @default("{\"studyReminders\":true,\"examAlerts\":true,\"taskReminders\":true,\"pomodoroSound\":true}")
+  avatarUrl         String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  refreshTokens     RefreshToken[]
+  cgpaRecords       CgpaRecord[]
+  attendanceCourses AttendanceCourse[]
+  studySessions     StudySession[]
+  pomodoroLogs      PomodoroLog[]
+  notes             Note[]
+  todoTasks         TodoTask[]
+  exams             Exam[]
+  quizzes           QuizRecord[]
+  adRewards         AdRewardLog[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id         String    @id @default(uuid())
+  tokenHash  String    @unique
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@map("refresh_tokens")
+}
+
+model CgpaRecord {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title        String
+  scaleType    String   @default("10_POINT")
+  scaleConfig  String
+  semesters    String
+  cgpa         Float
+  percentage   Float?
+  totalCredits Float
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("cgpa_records")
+}
+
+model AttendanceCourse {
+  id               String          @id @default(uuid())
+  userId           String
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseName       String
+  courseCode       String?
+  totalClasses     Int             @default(0)
+  attendedClasses  Int             @default(0)
+  targetPercentage Float           @default(75.0)
+  color            String?         @default("#3B82F6")
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  logs             AttendanceLog[]
+
+  @@map("attendance_courses")
+}
+
+model AttendanceLog {
+  id         String           @id @default(uuid())
+  courseId   String
+  course     AttendanceCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  date       DateTime         @default(now())
+  status     String
+  note       String?
+  createdAt  DateTime         @default(now())
+
+  @@map("attendance_logs")
+}
+
+model StudySession {
+  id             String    @id @default(uuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject        String
+  topic          String?
+  plannedMinutes Int
+  actualMinutes  Int       @default(0)
+  priority       String    @default("MEDIUM")
+  completed      Boolean   @default(false)
+  scheduledDate  DateTime
+  notes          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@map("study_sessions")
+}
+
+model PomodoroLog {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionType     String
+  durationMinutes Int
+  completed       Boolean  @default(true)
+  startedAt       DateTime
+  endedAt         DateTime @default(now())
+
+  @@map("pomodoro_logs")
+}
+
+model Note {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title      String
+  content    String
+  subject    String?
+  tags       String?
+  isPinned   Boolean  @default(false)
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("notes")
+}
+
+model TodoTask {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  dueDate     DateTime?
+  priority    String    @default("MEDIUM")
+  category    String    @default("General")
+  isCompleted Boolean   @default(false)
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("todo_tasks")
+}
+
+model Exam {
+  id               String   @id @default(uuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title            String
+  examDate         DateTime
+  subjects         String
+  syllabusProgress Float    @default(0)
+  priority         String   @default("HIGH")
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("exams")
+}
+
+model QuizRecord {
+  id               String   @id @default(uuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject          String
+  topic            String
+  difficulty       String
+  score            Int
+  totalQuestions   Int
+  questionsData    String
+  timeTakenSeconds Int
+  createdAt        DateTime @default(now())
+
+  @@map("quiz_records")
+}
+
+model AdRewardLog {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rewardType    String
+  adNetwork     String   @default("Google AdMob")
+  transactionId String   @unique
+  grantedAt     DateTime @default(now())
+
+  @@map("ad_reward_logs")
+}
